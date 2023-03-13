@@ -1,0 +1,11 @@
+{ 
+
+     "webhookURL" :   "http://localhost:3000/api",
+     "outboxPATH" : "./out/" ,
+     "outboxArchivePATH" : "archive/",
+     "interval" :  5000,
+     "RecvPort" : 3000,
+     "WlmRestURL" : "http://192.168.56.106:4567/services/di/2/HOST/messages"
+     
+
+}
