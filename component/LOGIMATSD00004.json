@@ -4,7 +4,7 @@
     "Serialnumber" : "1",
     "Creation time" : "",
     "Recordtype" : "LOGIMATSD00004",
-    "clientId"  : "DW",
+    "clientId"  : "DEFAULT",
     "demandNo" : "" ,
     "extRef" : "" ,
     "priority" : "1" ,

@@ -5,7 +5,7 @@
     "Creation time" : "",
     "Recordtype" : "LOGIMATINVD00005",
     "demandNo" : "" ,
-    "clientId"  : "DW",
+    "clientId"  : "DEFAULT",
     "demandType" : "WMS Default" ,
     "priority" : "1" ,
     "noteNo" : "" ,

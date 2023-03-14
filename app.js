@@ -44,16 +44,6 @@ var sendSDMssage = {
             "id": "1",
             "converter": "CSVConverter",
             "data": ""
-        },
-        {
-            "id": "2",
-            "converter": "CSVConverter",
-            "data": ""
-        },
-        {
-            "id": "3",
-            "converter": "CSVConverter",
-            "data": ""
         }]
 };
 var sendItemTelegram = {
@@ -85,200 +75,155 @@ app.post("/api", (req, res) => {
 
     var myJSON = JSON.stringify(req.body);
     getDataFromHOST = req.body;
+    console.log(getDataFromHOST);
     let HostKeyTelegram = Object.keys(getDataFromHOST);
 
-    if (!HostKeyTelegram.includes("itemMaster") && !HostKeyTelegram.includes("StorageOrders") && !HostKeyTelegram.includes("PickingOrders") && !HostKeyTelegram.includes("InventoryOrder")) {
+    if (!HostKeyTelegram.includes("itemMaster") && !HostKeyTelegram.includes("storageOrder") && !HostKeyTelegram.includes("pickingOrder") && !HostKeyTelegram.includes("InventoryOrder")) {
         res.sendStatus(400).end();
         logger.error("Bad Request")
     } else {
-
         logger.info("recived from HOST : "+JSON.stringify(getDataFromHOST))
         var i = 1
-        if (HostKeyTelegram.includes("ItemMaster")) {
+        if (HostKeyTelegram.includes("itemMaster")) {
             var telegramAsArray = [];
-            getDataFromHOST.ItemMaster.forEach(element => {
+            getDataFromHOST.itemMaster.forEach(element => {
                 let Template = itemTelegram.LOGIMATITEM00006;
                 let Template2 = itemTelegram.LOGIMATITEMDESC00002;
-                let Template3 = itemTelegram.LOGIMATITEMALIAS00003;
+                let Template3 = itemTelegram.LOGIMATQTYUNIT00001;
+                let Template4 = itemTelegram.LOGIMATPKV00003;
                 let hostTelegram = element;
-                Template.clientId = Template2.clientId = Template3.clientId =hostTelegram.client; 
-                Template.Item_itemNo = Template2.Item_itemNo = Template3.Item_itemNo = hostTelegram.ItemNo;
-                Template3.itemAliasNo = hostTelegram.UPCid ;
+                // Template.clientId = Template2.clientId = Template3.clientId =hostTelegram.client; 
+                Template.Item_itemNo = Template2.Item_itemNo = Template3.Item_itemNo = Template4.ItemNo= hostTelegram.itemNo;
+                Template.variant = Template2.variant  = Template3.variant= Template4.Varint  = hostTelegram.family;
+                Template.item_baseQtyUnit_id =Template3.qtyUnit = Template3.referenceQtyUnit = Template4.whQtyUnit = hostTelegram.UOM
+
                 Template.Serialnumber = i++;
                 Template2.Serialnumber = i++;
                 Template3.Serialnumber = i++;
-                Template2.Description1 = hostTelegram.Description1;
-                Template2.Description2 = hostTelegram.Description2;
+                Template4.Serialnumber = i++;
+
+                Template2.Description1 = hostTelegram.description1;
+                Template2.Description2 = hostTelegram.description2;
 
                 var csvData1 = [itemTelegram.LOGIMATITEM00006];
                 var csvData2 = [itemTelegram.LOGIMATITEMDESC00002]
-                var csvData3= [itemTelegram.LOGIMATITEMALIAS00003]
+                var csvData3 = [itemTelegram.LOGIMATQTYUNIT00001]
+                var csvData4 = [itemTelegram.LOGIMATPKV00003]
+
                 var csv1 = papa.unparse(csvData1);
                 var csv2 = papa.unparse(csvData2);
                 var csv3 = papa.unparse(csvData3);
-                var data = csv1 + "\r" + csv2 + "\r"+csv3+"\r" ;
+                var csv4 = papa.unparse(csvData4);
+
+                var data = csv1 + "\r\n" + csv2 +"\r\n" + csv4 +"\r\n"+ csv4 +"\r\n";
                 telegramAsArray.push(data);
             })
-            sendMssage.items[0].data = getAllArray(a);
+            sendMssage.items[0].data = getAllArray(telegramAsArray);
             postToWamas(sendMssage);
             res.send(req.body).end();
         };
 
-        if (HostKeyTelegram.includes("StorageOrders")) {
+        if (HostKeyTelegram.includes("storageOrder")) {
             var telegramAsArray = [];
-            var itemArray = [];
 
-            getDataFromHOST.StorageOrders.forEach(element => {
-                let Template = itemTelegram.LOGIMATITEM00006;
-                let Template2 = itemTelegram.LOGIMATITEMDESC00002;
-                let Template3 = itemTelegram.LOGIMATITEMALIAS00003;
-                let Template4 = itemTelegram.LOGIMATQTYUNIT00001;
-                let Template5 = itemTelegram.LOGIMATITEMCUBATURE00003;
-                let Template6 = itemTelegram.LOGIMATITEMCUBATURE00003A;
-                let Template7 = itemTelegram.LOGIMATPKV00003;
+            getDataFromHOST.storageOrder.forEach(element => {
+
                 let hostTelegram = element;
+                let Template = sdTelegram.LOGIMATSD00004;
 
-                hostTelegram.SKUs.forEach(elements => {
+                Template.demandNo = hostTelegram.orderNo;
+                Template.extRef =hostTelegram.extRef;
+                Template.noteNo = hostTelegram.noteNo;
+                Template.zone = hostTelegram.zone;
+                Template.info = hostTelegram.info;
+                Template.Info2 = hostTelegram.info2;
+                Template.Serialnumber = i++
 
-                    if (!elements.ItemNo || !elements.Qty || !elements.BoxId) {
-                        res.sendStatus(400).end();
-                        logger.error("Bad Request")
-                    } else {
-                        Template.Item_itemNo = Template2.Item_itemNo = Template3.Item_itemNo = Template4.Item_itemNo = Template5.ItemNo = Template6.ItemNo = Template7.ItemNo = elements.ItemNo;
-                        Template.Serialnumber = i++;
-                        Template2.Serialnumber = i++;
-                        Template3.Serialnumber = i++;
-                        Template7.Serialnumber = i++;
-                        Template4.Serialnumber = i++;
-                        Template2.Description1 = elements.Description;
-                        Template2.Description2 = elements.Description2;
-                        Template3.itemAliasNo = elements.UPCid;
-                        Template5.Varint = Template6.Varint = Template.variant=Template2.variant = Template3.variant= Template4.variant = Template7.Varint = "00000";
-                        
-                        if(elements.BatchNo === "R"){
-                            Template5.Varint = Template6.Varint = Template.variant=Template2.variant = Template3.variant= Template4.variant =Template7.Varint = elements.BatchNo;
-                            
-                            Template5.Serialnumber = i++
-                            Template6.Serialnumber = i++
-                            Template5.boxId = "Type-3";
-                            Template6.boxId = "Type-3A"
-                            Template5.baseQtyMax = Template6.baseQtyMax = "9999";
-                            Template5.unlimited =Template6.unlimited = "1";
-                        };
+                var csvData = [sdTelegram.LOGIMATSD00004];
+                var csv = papa.unparse(csvData);
+                var storageDemand = csv + "\r\n";
+                telegramAsArray.push(storageDemand);
 
-                        var csvData1 = [itemTelegram.LOGIMATITEM00006];
-                        var csvData2 = [itemTelegram.LOGIMATITEMDESC00002];
-                        var csvData3 = [itemTelegram.LOGIMATITEMALIAS00003];
-                        var csvData4 = [itemTelegram.LOGIMATQTYUNIT00001];
-                        var csvData5 = [itemTelegram.LOGIMATITEMCUBATURE00003];
-                        var csvData6 = [itemTelegram.LOGIMATITEMCUBATURE00003A];
-                        var csvData7 = [itemTelegram.LOGIMATPKV00003];
-                        var csv1 = papa.unparse(csvData1);
-                        var csv2 = papa.unparse(csvData2);
-                        var csv3 = papa.unparse(csvData3);
-                        var csv4 = papa.unparse(csvData4);
-                        var csv5 = papa.unparse(csvData5);
-                        var csv6 = papa.unparse(csvData6);
-                        var csv7 = papa.unparse(csvData7);
-
-                        if ( elements.BatchNo === "R" ){
-                            var itemData = csv1 + "\r\n" + csv2 + "\r\n"+csv3+"\r\n"+csv7+"\r\n"+csv4+"\r\n"+csv5+"\r\n"+csv6+"\r\n";
-                            itemArray.push(itemData);
-                        }
-                        else {
-                            var itemData = csv1 + "\r\n" + csv2 + "\r\n"+csv3+"\r\n"+csv7+"\r\n"+csv4+"\r\n";
-                            itemArray.push(itemData);
-                        }
-                    };
-
-                });
-
-
-                hostTelegram.SKUs.forEach(elements => {
-                    let Template4 = sdTelegram.LOGIMATSDL00003;
-                    let Template3 = sdTelegram.LOGIMATSD00004;
-                    Template3.extRef = hostTelegram.ASN;
-                    Template4.variant = "00000";
-
-                    if(elements.BatchNo === "R"){
-                        Template4.variant = elements.BatchNo;
-                    };
-
-
+                hostTelegram.orderline.forEach(element => {
+                    let Template2 = sdTelegram.LOGIMATSDL00003;
                     
-                    Template3.demandNo = Template3.noteNo = elements.BoxId;
-                    Template3.Serialnumber = i++;
-                    var csvData3 = [sdTelegram.LOGIMATSD00004];
-                    var csv3 = papa.unparse(csvData3);
-                    var storageDemand = csv3 + "\r";
-                    var lineNo = 1;
-                    telegramAsArray.push(storageDemand);
+                    Template2.demandNo = hostTelegram.orderNo;
+                    Template2.Serialnumber = i++;
+                    
+                    Template2.sysPartnerLine = element.lineNo;
+                    Template2.itemNo = element.itemNo;
+                    Template2.variant = element.family;
+                    Template2.batch = element.batchNo;
 
-                    Template4.csiaStockMode01 = elements.BoxId;
-                    Template4.csiaStockMode02 = hostTelegram.ASN;
-                    Template4.itemNo = elements.ItemNo;
-                    Template4.demandNo = elements.BoxId;
-                    Template4.Serialnumber = i++
-                    Template4.sysPartnerLine = lineNo++
-                    Template4.baseQty = elements.Qty;
-                    Template4.prodDate = elements.ProdDate;
-                    Template4.batch = elements.BatchNo;
-                    var csvData4 = [Template4];
-                    var csv4 = papa.unparse(csvData4);
-                    var storageDemandLine = csv4 + "\r";
+                    Template2.csiaStockMode01 = element.NMPPStatus;
+                    Template2.csiaStockMode02 = element.NMPPDate;
+                    Template2.csiaStockMode03 = element.serialIndicator;
+                    Template2.baseQty = element.qty;
+
+
+
+
+                    var csvData2 = [Template2];
+                    var csv2 = papa.unparse(csvData2);
+                    var storageDemandLine = csv2 + "\r\n";
                     telegramAsArray.push(storageDemandLine)
                 });
 
             })
-            sendSDMssage.items[0].data = getAllArray(itemArray);
-            sendSDMssage.items[1].data = getAllArray(itemArray);
-            sendSDMssage.items[2].data = getAllArray(telegramAsArray);
+            sendSDMssage.items[0].data = getAllArray(telegramAsArray);
             console.log(sendSDMssage);
             postToWamas(sendSDMssage);
             res.send(req.body).end();
         };
 
-        if (HostKeyTelegram.includes("PickingOrders")) {
+        if (HostKeyTelegram.includes("pickingOrder")) {
             var telegramAsArray = [];
-            getDataFromHOST.PickingOrders.forEach(elements => {
+            getDataFromHOST.pickingOrder.forEach(elements => {
                 let hostTelegram = elements;
-                if (!elements.OrderNo  ) {
+                if (!elements.orderNo  ) {
                     res.sendStatus(400).end();
                     logger.error("Bad Request")
                 } else {
                 let Template = pdTelegram.LOGIMATPD00004;
         
-
-                Template.demandNo = hostTelegram.OrderNo;
-                Template.Serialnumber = i++;
+                Template.demandNo = hostTelegram.orderNo;
+                Template.extRef =hostTelegram.extRef;
+                Template.noteNo = hostTelegram.noteNo;
+                Template.zone = hostTelegram.zone;
+                Template.info = hostTelegram.info;
+                Template.Info2 = hostTelegram.info2;
+                Template.Serialnumber = i++
 
                 var csvData = [Template];
                 var csv = papa.unparse(csvData);
-                var pickingDemand = csv + "\r";
-                var lineNo = 1;
+                var pickingDemand = csv + "\r\n";
                 telegramAsArray.push(pickingDemand);
-                };
+             
 
-                hostTelegram.OrderLine.forEach(elements => {
+                hostTelegram.orderline.forEach(element => {
                     let Template2 = pdTelegram.LOGIMATPDL00003;
-                    Template2.itemNo = elements.ItemNo;
-                    Template2.demandNo = hostTelegram.OrderNo;
-                    Template2.Serialnumber = i++
-                    Template2.sysPartnerLine = lineNo++
-                    Template2.baseQty = elements.Qty;
-                    Template2.prodDate = elements.ProdDate;
-                    Template2.batch = elements.BatchNo;
-                    Template2.variant = "00000";
-                    if( elements.BatchNo === "R"){
-                        Template2.variant = elements.BatchNo;
-                    }
+
+
+                    Template2.demandNo = hostTelegram.orderNo;
+                    Template2.Serialnumber = i++;
+                    
+                    Template2.sysPartnerLine = element.lineNo;
+                    Template2.itemNo = element.itemNo;
+                    Template2.variant = element.family;
+                    Template2.batch = element.batchNo;
+
+                    Template2.csiaStockMode01 = element.NMPPStatus;
+                    Template2.csiaStockMode02 = element.NMPPDate;
+                    Template2.csiaStockMode03 = element.serialIndicator;
+                    Template2.baseQty = element.qty;
             
                     var csvData2 = [Template2];
                     var csv2 = papa.unparse(csvData2);
-                    var pickingDemandLine = csv2 + "\r";
+                    var pickingDemandLine = csv2 + "\r\n";
                     telegramAsArray.push(pickingDemandLine)
                 });
-
+            }
+                
             })
 
             sendMssage.items[0].data = getAllArray(telegramAsArray);
@@ -345,13 +290,17 @@ function postToWamas(sendMssage) {
                 logger.error(error);
                 return
             }
-            console.log(`statusCode: ${res.statusCode}`);
+            console.log(`statusCode: ${res.statusCode}`, res.body);
             logger.info(`statusCode: ${res.statusCode}`);
             //   console.log(body)
         }
     ).auth("ssi", "ssi", false);
     logger.info("send telegram to WAMAS : " + JSON.stringify(sendMssage))
 
+}
+
+function checkConnection(){
+    request
 }
 
 function getAllArray(array) {
