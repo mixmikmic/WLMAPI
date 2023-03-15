@@ -96,7 +96,7 @@ app.post("/api", (req, res) => {
                 Template.Item_itemNo = Template2.Item_itemNo = Template3.Item_itemNo = Template4.ItemNo= hostTelegram.itemNo;
                 Template.variant = Template2.variant  = Template3.variant= Template4.Varint  = hostTelegram.family;
                 Template.item_baseQtyUnit_id =Template3.qtyUnit = Template3.referenceQtyUnit = Template4.whQtyUnit = hostTelegram.UOM
-
+                Template.clientId = Template2.clientId = Template3.clientId = Template4.clientId = hostTelegram.account
                 Template.Serialnumber = i++;
                 Template2.Serialnumber = i++;
                 Template3.Serialnumber = i++;
@@ -138,6 +138,7 @@ app.post("/api", (req, res) => {
                 Template.info = hostTelegram.info;
                 Template.Info2 = hostTelegram.info2;
                 Template.Serialnumber = i++
+                Template.clientId = hostTelegram.account
 
                 var csvData = [sdTelegram.LOGIMATSD00004];
                 var csv = papa.unparse(csvData);
@@ -193,6 +194,7 @@ app.post("/api", (req, res) => {
                 Template.info = hostTelegram.info;
                 Template.Info2 = hostTelegram.info2;
                 Template.Serialnumber = i++
+                Template.clientId = hostTelegram.account
 
                 var csvData = [Template];
                 var csv = papa.unparse(csvData);
