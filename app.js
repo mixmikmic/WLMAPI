@@ -12,6 +12,8 @@ const bodyParser = require('body-parser');
 const log4js = require("log4js");
 const { isNull } = require('util');
 const { json } = require('express');
+const webhook = require('./webhook');
+const { log } = require('console');
 
 filename = "./config.json";
 let rawdata = fs.readFileSync(filename);
@@ -77,6 +79,12 @@ app.post("/api", (req, res) => {
     getDataFromHOST = req.body;
     console.log(getDataFromHOST);
     let HostKeyTelegram = Object.keys(getDataFromHOST);
+    // console.log(getDataFromHOST.storageOrderack);
+    console.log(getDataFromHOST.pickingOrderack);
+    if(getDataFromHOST.storageOrderack)  console.log(getDataFromHOST.storageOrderack.orderLine[0]);
+    if(getDataFromHOST.pickingOrderack)  console.log(getDataFromHOST.pickingOrderack.orderLine[0]);
+    if(getDataFromHOST.storageOrderack)  console.log(getDataFromHOST.storageOrderack.orderLine[1]);
+
 
     if (!HostKeyTelegram.includes("itemMaster") && !HostKeyTelegram.includes("storageOrder") && !HostKeyTelegram.includes("pickingOrder") && !HostKeyTelegram.includes("InventoryOrder")) {
         res.sendStatus(400).end();
