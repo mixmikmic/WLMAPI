@@ -18,6 +18,7 @@ function postToWamas(sendMssage, WlmRestURL) {
                 logger.error(error);
                 return;
             }
+            console.log(sendMssage);
             console.log(`statusCode: ${res.statusCode}`, res.body);
             logger.info(`statusCode: ${res.statusCode}`);
         }
