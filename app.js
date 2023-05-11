@@ -62,7 +62,7 @@ app.post("/api", (req, res) => {
     getDataFromHOST = req.body;
     let HostKeyTelegram = Object.keys(getDataFromHOST);
 
-    if (!HostKeyTelegram.includes("itemMaster") && !HostKeyTelegram.includes("storageOrder") && !HostKeyTelegram.includes("pickingOrder") && !HostKeyTelegram.includes("InventoryOrder")) {
+    if (!HostKeyTelegram.includes("itemMaster") && !HostKeyTelegram.includes("storageOrder") && !HostKeyTelegram.includes("pickingOrder") && !HostKeyTelegram.includes("inventoryOrder")) {
         res.sendStatus(400).end();
         logger.error("Bad Request")
     } else {
@@ -89,7 +89,7 @@ app.post("/api", (req, res) => {
             res.send(req.body).end();
         }
 
-        if (HostKeyTelegram.includes("InventoryOrder")) {
+        if (HostKeyTelegram.includes("inventoryOrder")) {
             const telegramAsArray = handleInventoryOrder(getDataFromHOST);
             sendMssage.items[0].data = getAllArray(telegramAsArray);
             postToWamas(sendMssage,WlmRestURL);

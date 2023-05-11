@@ -1,6 +1,14 @@
 
 module.exports.handleLOGIMATPDACK00005 = function(result, postToHost) {
 
+  var itemNo;
+  var batchNo;
+  var orderedQty;
+  var storedQty;
+  var difReason;
+  var SKUs = [];
+
+var key = result.DI_TELEGRAM.header[0].FULL[0].HEADER_CREATIONTIME[0];
 
 var xmlBody = result.DI_TELEGRAM.body[0].LOGIMATPDACK00005[0];
 let demandNo = xmlBody.LogimatPickingDemand_demandNo[0];
@@ -67,6 +75,7 @@ let messge = {
 }
 
 let AckMessage = {"pickingOrderack" : messge }
+console.log(AckMessage, messge);
 postToHost(AckMessage)
 
 

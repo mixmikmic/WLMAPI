@@ -31,15 +31,7 @@ setInterval(() => {
         if (error === null) {
           var recordType = result.DI_TELEGRAM.header[0].FULL[0].HEADER_RECORDTYPENAME[0];
 
-          var itemNo;
-          var batchNo;
-          var orderedQty;
-          var storedQty;
-          var difReason;
-          var SKUs = [];
 
-          var key = result.DI_TELEGRAM.header[0].FULL[0].HEADER_CREATIONTIME[0];
-          // console.log(recordType);
 
           if (recordType == "LOGIMATSDACK00004") {
             handleLOGIMATSDACK00004(result, postToHost);

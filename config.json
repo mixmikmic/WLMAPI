@@ -4,8 +4,7 @@
      "outboxPATH" : "./out/" ,
      "outboxArchivePATH" : "archive/",
      "interval" :  5000,
-     "RecvPort" : 3000,
-     "WlmRestURL" : "http://127.0.0.1:3000/services/di/2/HOST/messages"
+     "RecvPort" : 3001,
+     "WlmRestURL" : " https://aeff-128-106-194-250.ngrok-free.app/services/di/2/HOST/messages"
      
-
 }

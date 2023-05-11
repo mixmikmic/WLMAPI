@@ -2,12 +2,20 @@
 module.exports.handleLOGIMATSDACK00004 = function(result, postToHost) {
 
 
+            var itemNo;
+            var batchNo;
+            var orderedQty;
+            var storedQty;
+            var difReason;
+            var SKUs = [];
+
+          var key = result.DI_TELEGRAM.header[0].FULL[0].HEADER_CREATIONTIME[0];
+          // console.log(recordType);
             var xmlBody = result.DI_TELEGRAM.body[0].LOGIMATSDACK00004[0];
             let demandNo = xmlBody.LogimatStorageDemand_demandNo[0];
             let NoteNo = xmlBody.LogimatStorageDemand_noteNo[0];
             let demandStage = xmlBody.LogimatStorageDemand_state_mainState[0]
             let demandline = xmlBody.LOGIMATSDLACK00003;
-
             demandline.forEach(element => {
               let locaion = []
               lineNo = element.LogimatStorageDemandLine_demandLineNo[0]
