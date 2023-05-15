@@ -1,3 +1,6 @@
+const config = require('../config.json');
+
+const webhookURL = config.storageOrderAcknowledgement;
 
 module.exports.handleLOGIMATSDACK00004 = function(result, postToHost) {
 
@@ -70,6 +73,6 @@ module.exports.handleLOGIMATSDACK00004 = function(result, postToHost) {
             }
          
             let AckMessage = {"storageOrderack" : messge }
-            postToHost(AckMessage)
+            postToHost(AckMessage, webhookURL)
 
         }

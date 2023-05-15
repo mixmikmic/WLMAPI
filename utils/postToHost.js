@@ -1,23 +1,48 @@
 const request = require('request');
 const config = require('../config.json');
 
-const webhookURL = config.webhookURL;
+const tokenUrl = config.tokenUrl;
+const username = config.API_Username;
+const password = config.API_Password;
 
-module.exports.postToHost = function(sendMssage) {
-  request.post(
-    webhookURL,
-    {
-      json: sendMssage,
-    },
-    (error, res, body) => {
-      if (error) {
-        console.error(error);
-        return;
-      }
-      if (!error) {
-        console.log(`statusCode: ${res.statusCode}`);
-        console.log(body);
-      }
+module.exports.postToHost = function(sendMssage, webhookURL) {
+
+
+  request.post({
+    url: tokenUrl,
+    form: {
+      Grant_type: 'password',
+      Username: username,
+      Password: password
     }
-  );
+  }, (err, response, body) =>{ 
+        res = JSON.parse(body)
+        token = res.access_token
+
+        console.log(token, webhookURL);
+        request.post( webhookURL,{
+          auth: {
+            'bearer': token
+          },
+            json: sendMssage,
+          },
+          (error, res, body) => {
+            if (error) {
+              console.error(error);
+              return;
+            }
+            if (!error) {
+              console.log(`statusCode: ${res.statusCode}`);
+              console.log(body);
+            }
+          }
+        );
+
+
+   })
+
+
+
+
 };
+

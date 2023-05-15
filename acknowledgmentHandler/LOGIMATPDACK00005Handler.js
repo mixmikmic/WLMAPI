@@ -1,3 +1,6 @@
+const config = require('../config.json');
+
+const webhookURL = config.pickingOrderAcknowledgement;
 
 module.exports.handleLOGIMATPDACK00005 = function(result, postToHost) {
 
@@ -76,7 +79,7 @@ let messge = {
 
 let AckMessage = {"pickingOrderack" : messge }
 console.log(AckMessage, messge);
-postToHost(AckMessage)
+postToHost(AckMessage, webhookURL)
 
 
 }

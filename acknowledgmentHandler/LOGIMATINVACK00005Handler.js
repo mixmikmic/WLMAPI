@@ -1,4 +1,8 @@
-        module.exports.handleLOGIMATINVACK00005 = function(result, postToHost) {
+const config = require('../config.json');
+
+const webhookURL = config.inventoryOrderAcknowledgement;
+
+module.exports.handleLOGIMATINVACK00005 = function(result, postToHost) {
 
             var xmlBody = result.DI_TELEGRAM.body[0].LOGIMATPDACK00005[0];
             let demandNo = xmlBody.LogimatPickingDemand_demandNo[0];
@@ -31,7 +35,7 @@
             }
          
             let AckMessage = { "key" : key, "InventoryOrderack" : message }
-            postToHost(AckMessage)
+            postToHost(AckMessage, webhookURL)
 
 
 }
