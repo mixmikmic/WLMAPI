@@ -24,7 +24,9 @@ module.exports.postToHost = function(sendMssage, webhookURL) {
           auth: {
             'bearer': token
           },
-            json: sendMssage,
+            form: {
+              ITEMS : JSON.stringify(sendMssage)
+            }
           },
           (error, res, body) => {
             if (error) {
