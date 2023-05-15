@@ -17,7 +17,7 @@ function handleInventoryOrder(getDataFromHOST, logger) {
         var inventoryDemand = csv + "\r\n";
         var lineNo = 1;
         telegramAsArray.push(inventoryDemand);
-        Template.clientId = hostTelegram.clientId;
+        Template.clientId = hostTelegram.account;
         hostTelegram.orderline.forEach(elements => {
             let Template2 = invTelegram.LOGIMATINVDL00003;
             Template2.itemNo = elements.ItemNo;
