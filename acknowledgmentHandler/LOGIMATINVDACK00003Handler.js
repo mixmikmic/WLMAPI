@@ -2,48 +2,79 @@ const config = require('../config.json');
 
 const webhookURL = config.inventoryOrderAcknowledgement;
 
-module.exports.LOGIMATINVDACK00003 = function(result, postToHost) {
-            var xmlBody = result.DI_TELEGRAM.body[0].LOGIMATINVDACK00003[0];
-            let demandNo = xmlBody.LogimatInventoryDemandLine_demand_demandNo[0];
-            // let demandStage = xmlBody.LogimatPickingDemand_state_mainState[0]
-            let demandline = xmlBody.LOGIMATINVDLACK00003;
-            console.log(xmlBody);
+module.exports.handleLOGIMATINVDACK00003 = function(result, postToHost) {
+  let locaion = []
+  var SKUs = [];
+  var batchNo;
+  var key = result.DI_TELEGRAM.header[0].FULL[0].HEADER_CREATIONTIME[0];
 
-            demandline.forEach(element => {
+  var xmlBody = result.DI_TELEGRAM.body[0].LOGIMATINVDACK00003[0];
+  let demandNo = xmlBody.LogimatInventoryDemand_demandNo[0];
+  let demandline = xmlBody.LOGIMATINVDLACK00003;
+  let stockAck = xmlBody.LOGIMATSTOCKACK00005;
+  let stockQty 
+  let countedQty 
+  let diffQty 
 
-              itemNo = element.LogimatPickingDemandLine_sqa_pkv_Item_itemNo[0];
-              batchNo = element.LogimatPickingDemandLine_sqa_batch[0];
-              prodDate = element.LogimatPickingDemandLine_sqa_prodDate[0];
-              orderedQty = element.LogimatPickingDemandLine_orderedAmount_baseQty[0];
-              pickedQty = element.LogimatPickingDemandLine_deliveredAmount_baseQty[0];
+    demandline.forEach(element => {
+
+              lineNo = element.LogimatInventoryDemandLine_sysPartnerLine[0]
+              zone = element.LogimatInventoryDemandLine_res_wh_zone[0];
+              client = element.LogimatInventoryDemandLine_res_item_item_Client_clientId[0];
+              itemNo = element.LogimatInventoryDemandLine_res_item_item_itemNo[0];
+              variant = element.LogimatInventoryDemandLine_res_item_item_variant[0];
+              
+              csia1 = ( (element.csia1) ? element.csia1[0] : "") 
+              csia2 = ( (element.csia2) ? element.csia2[0] : "") 
+              csia3 = ( (element.csia3) ? element.csia3[0] : "") 
+
+
 
 
               SKUs.push({
                 "zone": zone,
-                "lineNo": lineNo,
                 "account": client,
+                "lineNo": lineNo,
                 "ItemNo": itemNo,
                 "family": variant,
-                "batchNo": batchNo,
+                "batchNo": "",
                 "NMPPStatus": csia1,
                 "NMPPDate": csia2,
-                "location": locaion,
                 "serialIndicator": csia3,
-                "basedQty": parseInt(orderedQty),
-                "countedQty": parseInt(storedQty),
+                "location": locaion,
+                // "basedQty": parseInt(basedQty),
+                // "countedQty": parseInt(countedQty),
               })
             });
 
+
+            stockAck.forEach(e=>{
+              line = e.StockReportRequest_id[0];
+              locationId = e.StockObject_StockObjectBundle_luId;
+              batchNo = e.StockObject_sia_batch;
+              stockQty = countedQty - diffQty
+              countedQty = parseInt(e.StockObject_amount_baseQty[0]);
+              diffQty =  parseInt(e.StockObject_amount_difference[0]);
+
+              SKUs[line].batchNo = batchNo
+            })
+
+            console.log(stockAck);
+            console.log(SKUs);
             let pickingOrderack = []
             let message = {
+              "key": key,
               "OrderNo": demandNo,
-              "mainStage": demandStage,
-              "SKUs": SKUs
+              "orderLine": SKUs
             }
+
+
+
          
-            let AckMessage = { "key" : key, "InventoryOrderack" : message }
-            console.log(AckMessage, messge);
-            postToHost(AckMessage, webhookURL)
+            let AckMessage = {"inventoryAck" : message }
+
+            console.log(AckMessage);
+            // postToHost(AckMessage, webhookURL)
 
 
 }

@@ -14,7 +14,7 @@ function handleItemMaster(getDataFromHOST) {
 
         Template.Item_itemNo = Template2.Item_itemNo = Template3.Item_itemNo = Template4.ItemNo = hostTelegram.itemNo;
         Template.variant = Template2.variant = Template3.variant = Template4.Varint = hostTelegram.family;
-        Template.item_baseQtyUnit_id = Template3.qtyUnit = Template3.referenceQtyUnit = Template4.whQtyUnit = hostTelegram.UOM;
+        Template.item_baseQtyUnit_id = Template3.qtyUnit = Template3.referenceQtyUnit = Template4.whQtyUnit = hostTelegram.UOM.substring(0,5);
         Template.clientId = Template2.clientId = Template3.clientId = Template4.clientId = hostTelegram.account;
         Template.Serialnumber = i++;
         Template2.Serialnumber = i++;
