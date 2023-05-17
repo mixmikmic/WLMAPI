@@ -7,7 +7,6 @@ module.exports.handleLOGIMATPDACK00005 = function(result, postToHost) {
   var itemNo;
   var batchNo;
   var orderedQty;
-  var storedQty;
   var difReason;
   var SKUs = [];
 
@@ -17,6 +16,7 @@ var xmlBody = result.DI_TELEGRAM.body[0].LOGIMATPDACK00005[0];
 let demandNo = xmlBody.LogimatPickingDemand_demandNo[0];
 let demandStage = xmlBody.LogimatPickingDemand_state_mainState[0]
 let demandline = xmlBody.LOGIMATPDLACK00003;
+let noteNo = xmlBody.LogimatPickingDemand_noteNo[0]
 
 demandline.forEach(element => {
   let locaion = []
@@ -51,7 +51,7 @@ demandline.forEach(element => {
       "NMPPDate": csia2_act,
       "serialIndicator": csia3_act,
       "registerationTime": registerationTime,
-      "pickedAmount": pickedAmount,
+      "pickedAmount": parseInt(pickedAmount),
     })
   })
   SKUs.push({
@@ -63,17 +63,17 @@ demandline.forEach(element => {
     "NMPPDate": csia2,
     "serialIndicator": csia3,
     "difReason": difReason,
-    "orderedQty": orderedQty,
-    "pickedQty": pickedQty,
+    "orderedQty": parseInt(orderedQty),
+    "pickedQty": parseInt(pickedQty),
     "location": locaion
   })
 });
 
-let pickingOrderack = []
 let messge = {
   "key" : key,
-  "OrderNo": demandNo,
+  "orderNo": demandNo,
   "mainStage": demandStage,
+  "noteNo": noteNo,
   "orderLine": SKUs
 }
 

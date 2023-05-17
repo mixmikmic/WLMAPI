@@ -5,7 +5,7 @@
 			<HEADER_SOURCE>WAMAS</HEADER_SOURCE>
 			<HEADER_DESTINATION>HOST</HEADER_DESTINATION>
 			<HEADER_SEQUENCE>0</HEADER_SEQUENCE>
-			<HEADER_CREATIONTIME>20230511110948</HEADER_CREATIONTIME>
+			<HEADER_CREATIONTIME>20230511110949</HEADER_CREATIONTIME>
 			<HEADER_RECORDTYPENAME>LOGIMATPDACK00005</HEADER_RECORDTYPENAME>
 		</FULL>
 	</header>
@@ -27,9 +27,9 @@
 				<LogimatPickingDemandLine_sqa_pkv_Item_variant>Y122-08</LogimatPickingDemandLine_sqa_pkv_Item_variant>
 				<LogimatPickingDemandLine_sqa_batch>B</LogimatPickingDemandLine_sqa_batch>
 				<LogimatPickingDemandLine_diffReason>NONE</LogimatPickingDemandLine_diffReason>
-				<LogimatPickingDemandLine_orderedAmount_baseQty>1.0</LogimatPickingDemandLine_orderedAmount_baseQty>
-				<LogimatPickingDemandLine_releasedAmount_baseQty>1.0</LogimatPickingDemandLine_releasedAmount_baseQty>
-				<LogimatPickingDemandLine_deliveredAmount_baseQty>1.0</LogimatPickingDemandLine_deliveredAmount_baseQty>
+				<LogimatPickingDemandLine_orderedAmount_baseQty>2.0</LogimatPickingDemandLine_orderedAmount_baseQty>
+				<LogimatPickingDemandLine_releasedAmount_baseQty>2.0</LogimatPickingDemandLine_releasedAmount_baseQty>
+				<LogimatPickingDemandLine_deliveredAmount_baseQty>2.0</LogimatPickingDemandLine_deliveredAmount_baseQty>
 				<csia1>MC</csia1>
 				<csia2>20231212</csia2>
 				<csia3>S</csia3>
@@ -43,8 +43,8 @@
 					<LogimatPickingActivity_destStockObject_luId>TEMP000000017</LogimatPickingActivity_destStockObject_luId>
 					<LogimatPickingActivity_user>touch</LogimatPickingActivity_user>
 					<LogimatPickingActivity_registrationTime>20230511110946</LogimatPickingActivity_registrationTime>
-					<LogimatPickingActivity_pickedAmount_baseQty>1.0</LogimatPickingActivity_pickedAmount_baseQty>
-					<LogimatPickingActivity_reservedAmount_baseQty>1.0</LogimatPickingActivity_reservedAmount_baseQty>
+					<LogimatPickingActivity_pickedAmount_baseQty>2.0</LogimatPickingActivity_pickedAmount_baseQty>
+					<LogimatPickingActivity_reservedAmount_baseQty>2.0</LogimatPickingActivity_reservedAmount_baseQty>
 					<LogimatPickingActivity_sia_batch>B</LogimatPickingActivity_sia_batch>
 					<csia1>MC</csia1>
 					<csia2>20231212</csia2>

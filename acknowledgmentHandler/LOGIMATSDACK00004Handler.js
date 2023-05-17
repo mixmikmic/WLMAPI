@@ -57,8 +57,8 @@ module.exports.handleLOGIMATSDACK00004 = function(result, postToHost) {
                 "NMPPDate": csia2,
                 "serialIndicator": csia3,
                 "difReason": difReason,
-                "orderedQty": orderedQty,
-                "storedQty": storedQty,
+                "orderedQty": parseInt(orderedQty),
+                "storedQty": parseInt(storedQty),
                 "location": locaion
               })
             });

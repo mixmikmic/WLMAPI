@@ -5,7 +5,7 @@ const parser = new xml2js.Parser({ attrkey: "ATTR" });
 const config = require('./config.json');
 const { handleLOGIMATSDACK00004 } = require('./acknowledgmentHandler/LOGIMATSDACK00004Handler');
 const { handleLOGIMATPDACK00005 } = require('./acknowledgmentHandler/LOGIMATPDACK00005Handler');
-const { handleLOGIMATINVACK00005 } = require('./acknowledgmentHandler/LOGIMATINVACK00005Handler');
+const { handleLOGIMATINVDACK00003 } = require('./acknowledgmentHandler/LOGIMATINVDACK00003Handler');
 const { postToHost } = require('./utils/postToHost');
 const { scanFolder } = require('./utils/scanFolder');
 
@@ -41,8 +41,8 @@ setInterval(() => {
             handleLOGIMATPDACK00005(result, postToHost);
           };
 
-          if (recordType == "LOGIMATINVACK00005") {
-            handleLOGIMATINVACK00005(result, postToHost);
+          if (recordType == "LOGIMATINVDACK00003") {
+            handleLOGIMATINVDACK00003(result, postToHost);
           };
         }
         else {

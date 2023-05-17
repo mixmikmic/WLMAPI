@@ -2,28 +2,35 @@ const config = require('../config.json');
 
 const webhookURL = config.inventoryOrderAcknowledgement;
 
-module.exports.handleLOGIMATINVACK00005 = function(result, postToHost) {
+module.exports.LOGIMATINVDACK00003 = function(result, postToHost) {
+            var xmlBody = result.DI_TELEGRAM.body[0].LOGIMATINVDACK00003[0];
+            let demandNo = xmlBody.LogimatInventoryDemandLine_demand_demandNo[0];
+            // let demandStage = xmlBody.LogimatPickingDemand_state_mainState[0]
+            let demandline = xmlBody.LOGIMATINVDLACK00003;
+            console.log(xmlBody);
 
-            var xmlBody = result.DI_TELEGRAM.body[0].LOGIMATPDACK00005[0];
-            let demandNo = xmlBody.LogimatPickingDemand_demandNo[0];
-            let demandStage = xmlBody.LogimatPickingDemand_state_mainState[0]
-            let demandline = xmlBody.LOGIMATPDLACK00003;
             demandline.forEach(element => {
+
               itemNo = element.LogimatPickingDemandLine_sqa_pkv_Item_itemNo[0];
               batchNo = element.LogimatPickingDemandLine_sqa_batch[0];
               prodDate = element.LogimatPickingDemandLine_sqa_prodDate[0];
               orderedQty = element.LogimatPickingDemandLine_orderedAmount_baseQty[0];
               pickedQty = element.LogimatPickingDemandLine_deliveredAmount_baseQty[0];
-              difReason = element.LogimatPickingDemandLine_diffReason[0];
 
 
               SKUs.push({
+                "zone": zone,
+                "lineNo": lineNo,
+                "account": client,
                 "ItemNo": itemNo,
+                "family": variant,
                 "batchNo": batchNo,
-                "prodDate": prodDate,
-                "difReason": difReason,
-                "orderedQty": orderedQty,
-                "pickedQty": pickedQty
+                "NMPPStatus": csia1,
+                "NMPPDate": csia2,
+                "location": locaion,
+                "serialIndicator": csia3,
+                "basedQty": parseInt(orderedQty),
+                "countedQty": parseInt(storedQty),
               })
             });
 
@@ -35,6 +42,7 @@ module.exports.handleLOGIMATINVACK00005 = function(result, postToHost) {
             }
          
             let AckMessage = { "key" : key, "InventoryOrderack" : message }
+            console.log(AckMessage, messge);
             postToHost(AckMessage, webhookURL)
 
 
