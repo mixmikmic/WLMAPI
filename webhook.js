@@ -35,10 +35,13 @@ setInterval(() => {
 
           if (recordType == "LOGIMATSDACK00004") {
             handleLOGIMATSDACK00004(result, postToHost);
+            console.log("storage");
           };
 
           if (recordType == "LOGIMATPDACK00005") {
             handleLOGIMATPDACK00005(result, postToHost);
+            console.log("pick");
+
           };
 
           if (recordType == "LOGIMATINVDACK00003") {

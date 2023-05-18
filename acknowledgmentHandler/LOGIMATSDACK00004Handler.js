@@ -73,6 +73,7 @@ module.exports.handleLOGIMATSDACK00004 = function(result, postToHost) {
             }
          
             let AckMessage = {"storageOrderack" : messge }
+            console.log(AckMessage);
             postToHost(AckMessage, webhookURL)
 
         }
