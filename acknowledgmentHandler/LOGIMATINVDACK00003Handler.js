@@ -89,8 +89,6 @@ module.exports.handleLOGIMATINVDACK00003 = function(result, postToHost) {
 
          
             let AckMessage = {"inventoryAck" : message }
-
-            console.log(JSON.stringify(AckMessage));
             postToHost(AckMessage, webhookURL)
 
 
