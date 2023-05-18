@@ -69,15 +69,6 @@ module.exports.handleLOGIMATINVDACK00003 = function(result, postToHost) {
                   "diffQty": diffQty
                 })
              })
-            
-              
-
-       
-
-            console.log(SKUs);
-            console.log(SKUs[0]);
-            console.log(SKUs[1]);
-
             let pickingOrderack = []
             let message = {
               "key": key,
@@ -85,9 +76,6 @@ module.exports.handleLOGIMATINVDACK00003 = function(result, postToHost) {
               "orderLine": SKUs
             }
 
-
-
-         
             let AckMessage = {"inventoryAck" : message }
             postToHost(AckMessage, webhookURL)
 
