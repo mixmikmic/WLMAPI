@@ -1,9 +1,9 @@
 { 
 
      "tokenUrl"   :   "https://ilogongo.keyfields.com/ilogon_webserviceAPI_STL/token",
-     "storageOrderAcknowledgement" :   "https://ilogongo.keyfields.com/ilogon_webserviceAPI_STL/API/SchaferVLMStorageOrderAcknowledgement",
-     "pickingOrderAcknowledgement" :   "https://ilogongo.keyfields.com/ilogon_webserviceAPI_STL/API/SchaferVLMPickingOrderAcknowledgement",
-     "inventoryOrderAcknowledgement" :   "https://ilogongo.keyfields.com/ilogon_webserviceAPI_STL/API/SchaferVLMInventoryOrderAcknowledgement",
+     "storageOrderAcknowledgement" :   "",
+     "pickingOrderAcknowledgement" :   "",
+     "inventoryOrderAcknowledgement" :   "",
      "outboxPATH" : "./out/" ,
      "outboxArchivePATH" : "archive/",
      "interval" :  5000,

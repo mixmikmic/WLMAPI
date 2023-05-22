@@ -1,0 +1,14 @@
+{ 
+
+     "tokenUrl"   :   "https://ilogongo.keyfields.com/ilogon_webserviceAPI_STL/token",
+     "storageOrderAcknowledgement" :   "https://ilogongo.keyfields.com/ilogon_webserviceAPI_STL/API/SchaferVLMStorageOrderAcknowledgement",
+     "pickingOrderAcknowledgement" :   "https://ilogongo.keyfields.com/ilogon_webserviceAPI_STL/API/SchaferVLMPickingOrderAcknowledgement",
+     "inventoryOrderAcknowledgement" :   "https://ilogongo.keyfields.com/ilogon_webserviceAPI_STL/API/SchaferVLMInventoryOrderAcknowledgement",
+     "outboxPATH" : "./out/" ,
+     "outboxArchivePATH" : "archive/",
+     "interval" :  5000,
+     "RecvPort" : 3001,
+     "WlmRestURL" : " https://aeff-128-106-194-250.ngrok-free.app/services/di/2/HOST/messages",
+     "API_Username": "schafer-api",
+     "API_Password": "Schafer@123"
+}

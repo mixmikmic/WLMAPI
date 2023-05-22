@@ -20,7 +20,7 @@ function handleInventoryOrder(getDataFromHOST, logger) {
         telegramAsArray.push(inventoryDemand);
         hostTelegram.orderline.forEach(elements => {
             let Template2 = invTelegram.LOGIMATINVDL00003;
-            Template2.itemNo = elements.ItemNo;
+            Template2.itemNo = elements.itemNo;
             Template2.demandNo = hostTelegram.orderNo;
             Template2.Serialnumber = i++;
             Template2.sysPartnerLine = elements.lineNo;

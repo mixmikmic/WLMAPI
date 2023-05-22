@@ -11,21 +11,21 @@ module.exports.handleLOGIMATINVDACK00003 = function(result, postToHost) {
   let demandNo = xmlBody.LogimatInventoryDemand_demandNo[0];
   let demandline = xmlBody.LOGIMATINVDLACK00003;
   let stockAck = xmlBody.LOGIMATSTOCKACK00005;
-  let stockQty 
-  let countedQty 
-  let diffQty 
+  let stockQty; 
+  let countedQty; 
+  let diffQty;
 
     demandline.forEach(element => {
 
-              lineNo = element.LogimatInventoryDemandLine_sysPartnerLine[0]
+              lineNo = element.LogimatInventoryDemandLine_sysPartnerLine[0];
               zone = element.LogimatInventoryDemandLine_res_wh_zone[0];
               client = element.LogimatInventoryDemandLine_res_item_item_Client_clientId[0];
               itemNo = element.LogimatInventoryDemandLine_res_item_item_itemNo[0];
               variant = element.LogimatInventoryDemandLine_res_item_item_variant[0];
               
-              csia1 = ( (element.csia1) ? element.csia1[0] : "") 
-              csia2 = ( (element.csia2) ? element.csia2[0] : "") 
-              csia3 = ( (element.csia3) ? element.csia3[0] : "") 
+              csia1 = ( (element.csia1) ? element.csia1[0] : "");
+              csia2 = ( (element.csia2) ? element.csia2[0] : "");
+              csia3 = ( (element.csia3) ? element.csia3[0] : "");
 
 
               SKUs.push({
@@ -56,18 +56,23 @@ module.exports.handleLOGIMATINVDACK00003 = function(result, postToHost) {
               countedQty = parseInt(e.StockObject_amount_baseQty[0]);
               diffQty =  parseInt(e.StockObject_amount_difference[0]);
               stockQty = countedQty - diffQty;
-              SKUs[line-1].batchNo = batchNo
-             SKUs[line-1].location.push({
-                  "locationId" : locationId,
-                  "itemNo" : itemNo,
-                  "family" : family,
-                  "NMPPStatus": csia1,
-                  "NMPPDate": csia2,
-                  "serialIndicator": csia3,                
-                  "stockQty": stockQty,
-                  "countedQty" : countedQty,
-                  "diffQty": diffQty
-                })
+              console.log(SKUs);
+            //   if(batchNo){
+            //     SKUs[line-1].batchNo = batchNo
+            //   }
+            //  SKUs[line-1].location.push({
+            //       "locationId" : locationId,
+            //       "itemNo" : itemNo,
+            //       "family" : family,
+            //       "NMPPStatus": csia1,
+            //       "NMPPDate": csia2,
+            //       "serialIndicator": csia3,                
+            //       "stockQty": stockQty,
+            //       "countedQty" : countedQty,
+            //       "diffQty": diffQty
+            //     })
+
+            
              })
             let pickingOrderack = []
             let message = {
