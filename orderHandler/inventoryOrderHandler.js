@@ -23,7 +23,7 @@ function handleInventoryOrder(getDataFromHOST, logger) {
             Template2.itemNo = elements.ItemNo;
             Template2.demandNo = hostTelegram.orderNo;
             Template2.Serialnumber = i++;
-            Template2.sysPartnerLine = lineNo++;
+            Template2.sysPartnerLine = elements.lineNo;
             Template2.batch = elements.BatchNo;
             Template2.variant = elements.family;
             Template2.batch = elements.batchNo;
