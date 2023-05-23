@@ -56,7 +56,24 @@ module.exports.handleLOGIMATINVDACK00003 = function(result, postToHost) {
               countedQty = parseInt(e.StockObject_amount_baseQty[0]);
               diffQty =  parseInt(e.StockObject_amount_difference[0]);
               stockQty = countedQty - diffQty;
-              console.log(SKUs);
+       
+              SKUs.forEach(e => {
+              if(e.lineNo === line){
+                  e.location.push({
+                  "locationId" : locationId,
+                  "itemNo" : itemNo,
+                  "family" : family,
+                  "NMPPStatus": csia1,
+                  "NMPPDate": csia2,
+                  "serialIndicator": csia3,                
+                  "stockQty": stockQty,
+                  "countedQty" : countedQty,
+                  "diffQty": diffQty
+                  })
+
+                  e.batchNo = batchNo
+              }
+            })
             //   if(batchNo){
             //     SKUs[line-1].batchNo = batchNo
             //   }

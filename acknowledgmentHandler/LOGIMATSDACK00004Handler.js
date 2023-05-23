@@ -11,6 +11,7 @@ module.exports.handleLOGIMATSDACK00004 = function(result, postToHost) {
             var storedQty;
             var difReason;
             var SKUs = [];
+            var account;
 
           var key = result.DI_TELEGRAM.header[0].FULL[0].HEADER_CREATIONTIME[0];
           // console.log(recordType);
@@ -19,8 +20,10 @@ module.exports.handleLOGIMATSDACK00004 = function(result, postToHost) {
             let NoteNo = xmlBody.LogimatStorageDemand_noteNo[0];
             let demandStage = xmlBody.LogimatStorageDemand_state_mainState[0]
             let demandline = xmlBody.LOGIMATSDLACK00003;
+            let zone = xmlBody.LogimatStorageDemand_zone[0];
             demandline.forEach(element => {
               let locaion = []
+              account = element.LogimatStorageDemandLine_sqa_pkv_Item_Client_clientId[0]
               lineNo = element.LogimatStorageDemandLine_demandLineNo[0]
               itemNo = element.LogimatStorageDemandLine_sqa_pkv_Item_itemNo[0];
               batchNo = ((element.LogimatStorageDemandLine_sqa_batch) ? element.LogimatStorageDemandLine_sqa_batch[0] : "")
@@ -44,12 +47,13 @@ module.exports.handleLOGIMATSDACK00004 = function(result, postToHost) {
                   "trayNo": tray,
                   "user": user,
                   "registerationTime": registerationTime,
-                  "storedAmount": storedAmount,
+                  "storedAmount": parseInt(storedAmount),
                 })
               })
 
               SKUs.push({
                 "lineNo": lineNo,
+                "account": account,
                 "ItemNo": itemNo,
                 "family": variant,
                 "batchNo": batchNo,
@@ -69,6 +73,7 @@ module.exports.handleLOGIMATSDACK00004 = function(result, postToHost) {
               "orderNo": demandNo,
               "noteNo" : NoteNo,
               "mainStage": demandStage,
+              "zone" : zone,
               "orderLine": SKUs
             }
          

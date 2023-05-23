@@ -17,9 +17,11 @@ let demandNo = xmlBody.LogimatPickingDemand_demandNo[0];
 let demandStage = xmlBody.LogimatPickingDemand_state_mainState[0]
 let demandline = xmlBody.LOGIMATPDLACK00003;
 let noteNo = xmlBody.LogimatPickingDemand_noteNo[0]
+let zone = xmlBody.LogimatPickingDemand_zone[0];
 
 demandline.forEach(element => {
   let locaion = []
+  account = element.LogimatPickingDemandLine_sqa_pkv_Item_Client_clientId[0]
   lineNo = element.LogimatPickingDemandLine_demandLineNo[0]
   itemNo = element.LogimatPickingDemandLine_sqa_pkv_Item_itemNo[0];
   batchNo = ((element.LogimatPickingDemandLine_sqa_batch) ? element.LogimatPickingDemandLine_sqa_batch[0] : "")
@@ -56,6 +58,7 @@ demandline.forEach(element => {
   })
   SKUs.push({
     "lineNo": lineNo,
+    "account": account,
     "ItemNo": itemNo,
     "family": variant,
     "batchNo": batchNo,
@@ -74,6 +77,7 @@ let messge = {
   "orderNo": demandNo,
   "mainStage": demandStage,
   "noteNo": noteNo,
+  "zone" : zone,
   "orderLine": SKUs
 }
 
