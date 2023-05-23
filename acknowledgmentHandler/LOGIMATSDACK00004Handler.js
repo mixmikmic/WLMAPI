@@ -74,6 +74,7 @@ module.exports.handleLOGIMATSDACK00004 = function(result, postToHost) {
               "noteNo" : NoteNo,
               "mainStage": demandStage,
               "zone" : zone,
+              "account": account,
               "orderLine": SKUs
             }
          

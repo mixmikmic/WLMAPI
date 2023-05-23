@@ -78,6 +78,7 @@ let messge = {
   "mainStage": demandStage,
   "noteNo": noteNo,
   "zone" : zone,
+  "account": account,
   "orderLine": SKUs
 }
 
