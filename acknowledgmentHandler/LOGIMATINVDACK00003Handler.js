@@ -74,22 +74,6 @@ module.exports.handleLOGIMATINVDACK00003 = function(result, postToHost) {
                   e.batchNo = batchNo
               }
             })
-            //   if(batchNo){
-            //     SKUs[line-1].batchNo = batchNo
-            //   }
-            //  SKUs[line-1].location.push({
-            //       "locationId" : locationId,
-            //       "itemNo" : itemNo,
-            //       "family" : family,
-            //       "NMPPStatus": csia1,
-            //       "NMPPDate": csia2,
-            //       "serialIndicator": csia3,                
-            //       "stockQty": stockQty,
-            //       "countedQty" : countedQty,
-            //       "diffQty": diffQty
-            //     })
-
-            
              })
             let pickingOrderack = []
             let message = {
