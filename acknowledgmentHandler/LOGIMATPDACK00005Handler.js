@@ -16,7 +16,7 @@ var xmlBody = result.DI_TELEGRAM.body[0].LOGIMATPDACK00005[0];
 let demandNo = xmlBody.LogimatPickingDemand_demandNo[0];
 let demandStage = xmlBody.LogimatPickingDemand_state_mainState[0]
 let demandline = xmlBody.LOGIMATPDLACK00003;
-let noteNo = xmlBody.LogimatPickingDemand_noteNo[0]
+let noteNo = ((xmlBody.LogimatPickingDemand_noteNo) ? xmlBody.LogimatPickingDemand_noteNo[0] : "")
 let zone = xmlBody.LogimatPickingDemand_zone[0];
 
 demandline.forEach(element => {

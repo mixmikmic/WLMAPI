@@ -17,7 +17,7 @@ module.exports.handleLOGIMATSDACK00004 = function(result, postToHost) {
           // console.log(recordType);
             var xmlBody = result.DI_TELEGRAM.body[0].LOGIMATSDACK00004[0];
             let demandNo = xmlBody.LogimatStorageDemand_demandNo[0];
-            let NoteNo = xmlBody.LogimatStorageDemand_noteNo[0];
+            let NoteNo = ((xmlBody.LogimatStorageDemand_noteNo) ? xmlBody.LogimatStorageDemand_noteNo[0] : "")
             let demandStage = xmlBody.LogimatStorageDemand_state_mainState[0]
             let demandline = xmlBody.LOGIMATSDLACK00003;
             let zone = xmlBody.LogimatStorageDemand_zone[0];
