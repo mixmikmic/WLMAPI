@@ -8,6 +8,14 @@ const { handleLOGIMATPDACK00005 } = require('./acknowledgmentHandler/LOGIMATPDAC
 const { handleLOGIMATINVDACK00003 } = require('./acknowledgmentHandler/LOGIMATINVDACK00003Handler');
 const { postToHost } = require('./utils/postToHost');
 const { scanFolder } = require('./utils/scanFolder');
+const log4js = require("log4js");
+
+log4js.configure({
+  appenders: { system: { type: "file", filename: "./log/system.log" } },
+  categories: { default: { appenders: ["system"], level: "info" } }
+});
+
+const logger = log4js.getLogger("system");
 
 
 const outboxPATH = config.outboxPATH;
@@ -50,13 +58,16 @@ setInterval(() => {
         }
         else {
           console.log(error);
+          logger.error(error);
         }
       });
 
       let archiveFolder = outboxArchivePATH + filename;
       fs.rename(xmlPATH, archiveFolder, (err) => {
         if (err) throw err
+        
         console.log('Successfully renamed - AKA moved!')
+        logger.info(`Successfully move file ${filename} to archive`);
       });
 
     }
