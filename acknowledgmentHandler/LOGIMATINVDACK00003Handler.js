@@ -41,40 +41,43 @@ module.exports.handleLOGIMATINVDACK00003 = function(result, postToHost) {
                 "location": [],
               })
             });
-
-            stockAck.forEach(e=>{
-              let locaion = []
-
-              line = e.StockReportRequest_id[0];
-              locationId = e.StockObject_StockObjectBundle_luId[0];
-              itemNo = e.StockObject_sia_pkv_Item_itemNo[0];
-              family = e.StockObject_sia_pkv_Item_variant[0];
-              batchNo = ( (e.StockObject_sia_batch) ? e.StockObject_sia_batch[0] : "") 
-              csia1 = ( (e.StockObject_sia_csia_csia01) ? e.StockObject_sia_csia_csia01[0] : "") 
-              csia2 = ( (e.StockObject_sia_csia_csia02) ? e.StockObject_sia_csia_csia02[0] : "") 
-              csia3 = ( (e.StockObject_sia_csia_csia03) ? e.StockObject_sia_csia_csia03[0] : "") 
-              countedQty = parseInt(e.StockObject_amount_baseQty[0]);
-              diffQty =  parseInt(e.StockObject_amount_difference[0]);
-              stockQty = countedQty - diffQty;
-       
-              SKUs.forEach(e => {
-              if(e.lineNo === line){
-                  e.location.push({
-                  "locationId" : locationId,
-                  "itemNo" : itemNo,
-                  "family" : family,
-                  "NMPPStatus": csia1,
-                  "NMPPDate": csia2,
-                  "serialIndicator": csia3,                
-                  "stockQty": stockQty,
-                  "countedQty" : countedQty,
-                  "diffQty": diffQty
-                  })
-
-                  e.batchNo = batchNo
-              }
-            })
-             })
+            
+            if(stockAck){
+              stockAck.forEach(e=>{
+                let locaion = []
+  
+                line = e.StockReportRequest_id[0];
+                locationId = e.StockObject_StockObjectBundle_luId[0];
+                itemNo = e.StockObject_sia_pkv_Item_itemNo[0];
+                family = e.StockObject_sia_pkv_Item_variant[0];
+                batchNo = ( (e.StockObject_sia_batch) ? e.StockObject_sia_batch[0] : "") 
+                csia1 = ( (e.StockObject_sia_csia_csia01) ? e.StockObject_sia_csia_csia01[0] : "") 
+                csia2 = ( (e.StockObject_sia_csia_csia02) ? e.StockObject_sia_csia_csia02[0] : "") 
+                csia3 = ( (e.StockObject_sia_csia_csia03) ? e.StockObject_sia_csia_csia03[0] : "") 
+                countedQty = parseInt(e.StockObject_amount_baseQty[0]);
+                diffQty =  parseInt(e.StockObject_amount_difference[0]);
+                stockQty = countedQty - diffQty;
+         
+                SKUs.forEach(e => {
+                if(e.lineNo === line){
+                    e.location.push({
+                    "locationId" : locationId,
+                    "itemNo" : itemNo,
+                    "family" : family,
+                    "NMPPStatus": csia1,
+                    "NMPPDate": csia2,
+                    "serialIndicator": csia3,                
+                    "stockQty": stockQty,
+                    "countedQty" : countedQty,
+                    "diffQty": diffQty
+                    })
+  
+                    e.batchNo = batchNo
+                }
+              })
+               })
+            }
+ 
             let pickingOrderack = []
             let message = {
               "key": key,

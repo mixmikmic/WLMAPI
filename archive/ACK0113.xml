@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DI_TELEGRAM>
+	<header>
+		<FULL>
+			<HEADER_SOURCE>WAMAS</HEADER_SOURCE>
+			<HEADER_DESTINATION>HOST</HEADER_DESTINATION>
+			<HEADER_SEQUENCE>0</HEADER_SEQUENCE>
+			<HEADER_CREATIONTIME>20230529101311</HEADER_CREATIONTIME>
+			<HEADER_RECORDTYPENAME>LOGIMATINVDACK00003</HEADER_RECORDTYPENAME>
+		</FULL>
+	</header>
+	<body>
+		<LOGIMATINVDACK00003>
+			<LogimatInventoryDemand_demandNo>STK0008215</LogimatInventoryDemand_demandNo>
+			<LogimatInventoryDemand_inventoryDemandType_typeId>WMS Default</LogimatInventoryDemand_inventoryDemandType_typeId>
+			<LOGIMATINVDLACK00003>
+				<LogimatInventoryDemandLine_demand_demandNo>STK0008215</LogimatInventoryDemandLine_demand_demandNo>
+				<LogimatInventoryDemandLine_sysPartnerLine>1</LogimatInventoryDemandLine_sysPartnerLine>
+				<LogimatInventoryDemandLine_res_item_item_Client_clientId>ES</LogimatInventoryDemandLine_res_item_item_Client_clientId>
+				<LogimatInventoryDemandLine_res_item_item_itemNo>0000064871</LogimatInventoryDemandLine_res_item_item_itemNo>
+				<LogimatInventoryDemandLine_res_item_item_variant>VSA003</LogimatInventoryDemandLine_res_item_item_variant>
+				<LogimatInventoryDemandLine_res_wh_zone>ZONEA</LogimatInventoryDemandLine_res_wh_zone>
+				<csia1>MC</csia1>
+				<csia3>S</csia3>
+			</LOGIMATINVDLACK00003>
+		</LOGIMATINVDACK00003>
+	</body>
+</DI_TELEGRAM>
+

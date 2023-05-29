@@ -19,58 +19,62 @@ let demandline = xmlBody.LOGIMATPDLACK00003;
 let noteNo = ((xmlBody.LogimatPickingDemand_noteNo) ? xmlBody.LogimatPickingDemand_noteNo[0] : "")
 let zone = xmlBody.LogimatPickingDemand_zone[0];
 
-demandline.forEach(element => {
-  let locaion = []
-  account = element.LogimatPickingDemandLine_sqa_pkv_Item_Client_clientId[0]
-  lineNo = element.LogimatPickingDemandLine_demandLineNo[0]
-  itemNo = element.LogimatPickingDemandLine_sqa_pkv_Item_itemNo[0];
-  batchNo = ((element.LogimatPickingDemandLine_sqa_batch) ? element.LogimatPickingDemandLine_sqa_batch[0] : "")
-  variant = element.LogimatPickingDemandLine_sqa_pkv_Item_variant[0];
-  csia1 = ( (element.csia1) ? element.csia1[0] : "") 
-  csia2 = ( (element.csia2) ? element.csia2[0] : "") 
-  csia3 = ( (element.csia3) ? element.csia3[0] : "") 
-  orderedQty = element.LogimatPickingDemandLine_orderedAmount_baseQty[0];
-  pickedQty = element.LogimatPickingDemandLine_deliveredAmount_baseQty[0];
-  difReason = element.LogimatPickingDemandLine_diffReason[0];
-  element.LOGIMATPDLACTIVITYACK00002.forEach(e=>{
-    logiMat = e.LogimatPickingActivity_opening_LogimatDcCfg_logimatId[0];
-    tray = e.LogimatPickingActivity_sourceTrayNo[0];
-    locationId = e.LogimatPickingActivity_sourceBox_luId[0];
-    user = e.LogimatPickingActivity_user[0];
-    registerationTime = e.LogimatPickingActivity_registrationTime[0];
-    pickedAmount = e.LogimatPickingActivity_pickedAmount_baseQty[0];
-    batch_act = ((e.LogimatPickingActivity_sia_batch) ? e.LogimatPickingActivity_sia_batch[0] : "")
-    csia1_act = ((e.csia1) ? e.csia1[0] : "")
-    csia2_act = ((e.csia2) ? e.csia2[0] : "")
-    csia3_act = ((e.csia3) ? e.csia3[0] : "")
-    locaion.push({
-      "locationId": locationId,
-      "logimat": logiMat,
-      "trayNo": tray,
-      "user": user,
-      "batchNo": batch_act,
-      "NMPPStatus": csia1_act,
-      "NMPPDate": csia2_act,
-      "serialIndicator": csia3_act,
-      "registerationTime": registerationTime,
-      "pickedAmount": parseInt(pickedAmount),
+if(demandline){
+  demandline.forEach(element => {
+    let locaion = []
+    account = element.LogimatPickingDemandLine_sqa_pkv_Item_Client_clientId[0]
+    lineNo = element.LogimatPickingDemandLine_demandLineNo[0]
+    itemNo = element.LogimatPickingDemandLine_sqa_pkv_Item_itemNo[0];
+    batchNo = ((element.LogimatPickingDemandLine_sqa_batch) ? element.LogimatPickingDemandLine_sqa_batch[0] : "")
+    variant = element.LogimatPickingDemandLine_sqa_pkv_Item_variant[0];
+    csia1 = ( (element.csia1) ? element.csia1[0] : "") 
+    csia2 = ( (element.csia2) ? element.csia2[0] : "") 
+    csia3 = ( (element.csia3) ? element.csia3[0] : "") 
+    orderedQty = element.LogimatPickingDemandLine_orderedAmount_baseQty[0];
+    pickedQty = element.LogimatPickingDemandLine_deliveredAmount_baseQty[0];
+    difReason = element.LogimatPickingDemandLine_diffReason[0];
+    element.LOGIMATPDLACTIVITYACK00002.forEach(e=>{
+      logiMat = e.LogimatPickingActivity_opening_LogimatDcCfg_logimatId[0];
+      tray = e.LogimatPickingActivity_sourceTrayNo[0];
+      locationId = e.LogimatPickingActivity_sourceBox_luId[0];
+      user = e.LogimatPickingActivity_user[0];
+      registerationTime = e.LogimatPickingActivity_registrationTime[0];
+      pickedAmount = e.LogimatPickingActivity_pickedAmount_baseQty[0];
+      batch_act = ((e.LogimatPickingActivity_sia_batch) ? e.LogimatPickingActivity_sia_batch[0] : "")
+      csia1_act = ((e.csia1) ? e.csia1[0] : "")
+      csia2_act = ((e.csia2) ? e.csia2[0] : "")
+      csia3_act = ((e.csia3) ? e.csia3[0] : "")
+      locaion.push({
+        "locationId": locationId,
+        "logimat": logiMat,
+        "trayNo": tray,
+        "user": user,
+        "batchNo": batch_act,
+        "NMPPStatus": csia1_act,
+        "NMPPDate": csia2_act,
+        "serialIndicator": csia3_act,
+        "registerationTime": registerationTime,
+        "pickedAmount": parseInt(pickedAmount),
+      })
     })
-  })
-  SKUs.push({
-    "lineNo": lineNo,
-    "account": account,
-    "ItemNo": itemNo,
-    "family": variant,
-    "batchNo": batchNo,
-    "NMPPStatus": csia1,
-    "NMPPDate": csia2,
-    "serialIndicator": csia3,
-    "difReason": difReason,
-    "orderedQty": parseInt(orderedQty),
-    "pickedQty": parseInt(pickedQty),
-    "location": locaion
-  })
-});
+    SKUs.push({
+      "lineNo": lineNo,
+      "account": account,
+      "ItemNo": itemNo,
+      "family": variant,
+      "batchNo": batchNo,
+      "NMPPStatus": csia1,
+      "NMPPDate": csia2,
+      "serialIndicator": csia3,
+      "difReason": difReason,
+      "orderedQty": parseInt(orderedQty),
+      "pickedQty": parseInt(pickedQty),
+      "location": locaion
+    })
+  });
+}
+
+
 
 let messge = {
   "key" : key,
